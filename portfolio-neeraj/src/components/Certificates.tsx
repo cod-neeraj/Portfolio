@@ -14,7 +14,7 @@ interface Certificate {
 const Certificates: React.FC = () => {
   const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [loading, setLoading] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(() => {
+  const [loggedIn] = useState(() => {
     const stored = localStorage.getItem("loggedIn");
     return stored ? JSON.parse(stored) : false;
   });

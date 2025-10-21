@@ -15,7 +15,7 @@ interface EducationItem {
 const Education: React.FC = () => {
   const [education, setEducation] = useState<EducationItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(() => {
+  const [loggedIn] = useState(() => {
     const stored = localStorage.getItem("loggedIn");
     return stored ? JSON.parse(stored) : false;
   });

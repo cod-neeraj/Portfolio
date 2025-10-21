@@ -14,7 +14,7 @@ interface ProjectItem {
 const Projects: React.FC = () => {
   const [projects, setProjects] = useState<ProjectItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(() => {
+  const [loggedIn] = useState(() => {
     const stored = localStorage.getItem("loggedIn");
     return stored ? JSON.parse(stored) : false;
   });

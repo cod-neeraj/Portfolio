@@ -14,7 +14,7 @@ interface ExperienceItem {
 const Experience: React.FC = () => {
   const [experiences, setExperiences] = useState<ExperienceItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(() => {
+  const [loggedIn] = useState(() => {
     const stored = localStorage.getItem("loggedIn");
     return stored ? JSON.parse(stored) : false;
   });
