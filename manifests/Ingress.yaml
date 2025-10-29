@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: portfolio-ingress
-  namespace: portfolio
+  namespace: argocd
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
