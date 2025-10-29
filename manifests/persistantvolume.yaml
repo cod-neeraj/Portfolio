@@ -11,7 +11,6 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: "/mnt/data/postgres"
-
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -25,4 +24,39 @@ spec:
   resources:
     requests:
       storage: 2Gi
-
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: portfolio
+spec:
+  serviceName: postgres-headless
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "Portfolio"
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: "POSTGRES_PASSWORD"
+              value: "helloworld!"
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pvc
