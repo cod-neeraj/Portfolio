@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgres-headless
-  namespace: portfolio
+  namespace: argocd
 spec:
   clusterIP: None    
   selector:
