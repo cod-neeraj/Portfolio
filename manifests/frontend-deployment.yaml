@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: neerajdeveloper/portfolio-frontend:46
+          image: neerajdeveloper/portfolio-frontend:47
           ports:
             - containerPort: 80              
