@@ -33,9 +33,9 @@ const Hero = () => {
   }, [charIndex, deleting, index]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center  justify-center overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 bg-white">
         <img
           src={heroBg}
           alt="Hero background"
@@ -50,7 +50,7 @@ const Hero = () => {
         {/* Badges */}
         <div className="mb-6 flex flex-col items-center gap-4 animate-scale-in">
           <span className="inline-block px-6 py-3 rounded-full border-2 border-primary/50 bg-primary/10 text-primary text-sm font-semibold backdrop-blur-sm shadow-[0_0_30px_hsl(var(--primary)/0.4)] hover:shadow-[0_0_50px_hsl(var(--primary)/0.6)] transition-all">
-            Third Year Student
+          
           </span>
 
           <span className="inline-block px-6 py-3 rounded-full border-2 border-primary/50 bg-primary/10 text-primary text-sm font-semibold backdrop-blur-sm shadow-[0_0_30px_hsl(var(--primary)/0.4)] hover:shadow-[0_0_50px_hsl(var(--primary)/0.6)] transition-all">

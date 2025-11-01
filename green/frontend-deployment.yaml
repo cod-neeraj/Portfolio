@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-deployment
+  name: frontend-deployment-green
   namespace: portfolio
   labels:
     app: frontend
@@ -9,14 +9,14 @@ spec:
   replicas: 5
   selector:
     matchLabels:
-      app: frontend
+      app: frontend-green
   template:
     metadata:
       labels:
-        app: frontend
+        app: frontend-green
     spec:
       containers:
         - name: frontend
-          image: neerajdeveloper/portfolio-frontend:53
+          image: neerajdeveloper/portfolio-frontend-vscode
           ports:
             - containerPort: 80              

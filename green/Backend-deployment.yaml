@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-deployment
+  name: backend-deployment-green
   namespace: portfolio
   labels:
     app: backend
@@ -9,15 +9,15 @@ spec:
   replicas: 5
   selector:
     matchLabels:
-      app: backend
+      app: backend-green
   template:
     metadata:
       labels:
-        app: backend
+        app: backend-green
     spec:
       containers:
-        - name: backend
-          image: neerajdeveloper/portfolio-cicd:53
+        - name: nginx
+          image: nginx:latest
           ports:
             - containerPort: 8080
           env:
