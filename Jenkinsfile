@@ -93,7 +93,7 @@ stage('Debug Branch') {
   when {
     expression { 
       return env.GIT_BRANCH == "origin/main" || env.BRANCH_NAME == "main"
-    }
+    }  
   }
   steps {
     withCredentials([string(credentialsId: 'github_token', variable: 'GIT_TOKEN')]) {
