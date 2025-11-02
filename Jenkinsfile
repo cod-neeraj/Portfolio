@@ -25,28 +25,34 @@ pipeline {
         sh 'cd portfolio-backend/portfolio-backend && mvn -Dmaven.repo.local=/root/.m2/repository clean package -DskipTests'
       }
     }
- stage('Build Frontend') {
+stage('Build Frontend') {
   agent {
     docker {
       image 'node:20-alpine'
-      args '-u root'   // run as root inside container to avoid permission issues
+      args '-u root'
     }
   }
   steps {
+    cleanWs()
     sh '''
       cd portfolio-neeraj
 
-      # Clean cache and previous installs
-      rm -rf node_modules package-lock.json
+      # Clean workspace
+      rm -rf node_modules
       npm cache clean --force
 
-      # Install cleanly
-      npm ci --unsafe-perm=true
+      # Install dependencies (use ci only if lock file exists)
+      if [ -f package-lock.json ]; then
+        npm ci --unsafe-perm=true
+      else
+        npm install --unsafe-perm=true
+      fi
 
       npm run build
     '''
   }
 }
+
 
     
     stage('SonarQube Analysis') {
