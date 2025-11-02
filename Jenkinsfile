@@ -25,20 +25,29 @@ pipeline {
         sh 'cd portfolio-backend/portfolio-backend && mvn -Dmaven.repo.local=/root/.m2/repository clean package -DskipTests'
       }
     }
-    stage('Build Frontend') {
+ stage('Build Frontend') {
   agent {
     docker {
       image 'node:20-alpine'
+      args '-u root'   // run as root inside container to avoid permission issues
     }
   }
   steps {
     sh '''
       cd portfolio-neeraj
-      npm ci
+
+      # Clean cache and previous installs
+      rm -rf node_modules package-lock.json
+      npm cache clean --force
+
+      # Install cleanly
+      npm ci --unsafe-perm=true
+
       npm run build
     '''
   }
 }
+
     
     stage('SonarQube Analysis') {
       agent {
