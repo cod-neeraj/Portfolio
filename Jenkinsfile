@@ -25,6 +25,20 @@ pipeline {
         sh 'cd portfolio-backend/portfolio-backend && mvn -Dmaven.repo.local=/root/.m2/repository clean package -DskipTests'
       }
     }
+    stage('Build Frontend') {
+  agent {
+    docker {
+      image 'node:20-alpine'
+    }
+  }
+  steps {
+    sh '''
+      cd portfolio-neeraj
+      npm ci
+      npm run build
+    '''
+  }
+}
     
     stage('SonarQube Analysis') {
       agent {
