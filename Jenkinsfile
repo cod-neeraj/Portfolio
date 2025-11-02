@@ -42,7 +42,7 @@ pipeline {
             mvn -Dmaven.repo.local=/root/.m2/repository \
               sonar:sonar \
               -Dsonar.projectKey=portfolio-backend \
-              -Dsonar.host.url=http://13.218.141.47:9000 \
+              -Dsonar.host.url=http://72.44.60.220:9000 \
               -Dsonar.login=$SONAR_TOKEN
           '''
         }
