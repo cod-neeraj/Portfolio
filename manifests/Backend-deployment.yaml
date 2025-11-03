@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: neerajdeveloper/portfolio-cicd:30
+          image: neerajdeveloper/portfolio-cicd:32
           ports:
             - containerPort: 8080
           env:
