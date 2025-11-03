@@ -4,7 +4,7 @@ import { Heart, X, LogOut } from "lucide-react";
 const Footer = () => {
   const BASE_URL = import.meta.env.VITE_API_URL;
   const [showLogin, setShowLogin] = useState(false);
-  const [isLoginMode, setIsLoginMode] = useState(true); // Toggle between login & signup
+  const [isLoginMode, setIsLoginMode] = useState(true);
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
