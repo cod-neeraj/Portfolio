@@ -19,8 +19,6 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Copy the built app
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Optional: for debugging, show files after copy
-RUN ls -R /usr/share/nginx/html
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
