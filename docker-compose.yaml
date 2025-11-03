@@ -15,7 +15,7 @@ services:
 
   backend:
     build: ./portfolio-backend/portfolio-backend
-    container_name: portfolio_backend
+    container_name: portfolio
     ports:
       - "9090:9090"
     environment:
@@ -27,7 +27,7 @@ services:
 
   frontend:
     build: ./portfolio-neeraj
-    container_name: react_frontend
+    container_name: portfolio
     environment:
       VITE_API_URL: http://backend:8080
     ports:
