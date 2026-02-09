@@ -1,80 +1,104 @@
 import React from "react";
-import { Code2, Server, Layout, Zap } from "lucide-react";
+import { Server, Layout, Zap, Code2 } from "lucide-react";
 
-// Define domain type
+/* ============================
+   DOMAIN TYPES
+============================ */
 type Domain =
-  | "Frontend"
-  | "Backend"
-  | "DevOps / Cloud"
-  | "Data & Messaging / Other Tools";
+  | "Backend Engineering"
+  | "DevOps & Cloud"
+  | "Data, Messaging & Security"
+  | "Frontend Development";
 
-// Skills JSON data
+/* ============================
+   SKILLS DATA
+============================ */
 const skillsData = {
   skills: [
     {
-      domain: "Frontend",
-      skills: [
-        "React",
-        "HTML 5",
-        "Tailwind CSS",
-        "UI Components",
-        "Frontend-Backend Integration",
-      ],
-    },
-    {
-      domain: "Backend",
+      domain: "Backend Engineering",
       skills: [
         "Java",
         "Spring Boot",
         "Spring Data JPA",
-        "PostgreSQL / SQL",
-        "Microservices",
+        "REST API Design",
+        "Microservices Architecture",
+        "PostgreSQL",
+        "SQL",
+        "JWT Authentication",
         "Express.js",
       ],
     },
     {
-      domain: "DevOps / Cloud",
+      domain: "DevOps & Cloud",
       skills: [
+        "Linux",
+        "Shell Scripting",
         "Docker",
+        "Docker Compose",
         "Kubernetes",
         "Jenkins",
+        "GitHub Actions",
+        "CI/CD Pipelines",
         "AWS",
-        "Logging & Monitoring",
         "Terraform",
+        "Logging & Monitoring",
       ],
     },
     {
-      domain: "Data & Messaging / Other Tools",
-      skills: ["Kafka", "Redis", "JSON, REST APIs", "JWT"],
+      domain: "Data, Messaging & Security",
+      skills: [
+        "Apache Kafka",
+        "Redis",
+        "JSON",
+        "REST APIs",
+        "Database Design",
+        "API Integration",
+      ],
+    },
+    {
+      domain: "Frontend Development",
+      skills: [
+        "React",
+        "TypeScript",
+        "HTML5",
+        "Tailwind CSS",
+        "Responsive UI Design",
+        "Frontend-Backend Integration",
+      ],
     },
   ],
 };
 
-// Map each domain to an icon and color
+/* ============================
+   DOMAIN META (ICONS & COLORS)
+============================ */
 const domainMeta: Record<
   Domain,
   { icon: React.FC<React.SVGProps<SVGSVGElement>>; color: "primary" | "secondary" }
 > = {
-  Frontend: { icon: Code2, color: "primary" },
-  Backend: { icon: Server, color: "secondary" },
-  "DevOps / Cloud": { icon: Layout, color: "primary" },
-  "Data & Messaging / Other Tools": { icon: Zap, color: "secondary" },
+  "Backend Engineering": { icon: Server, color: "secondary" },
+  "DevOps & Cloud": { icon: Layout, color: "primary" },
+  "Data, Messaging & Security": { icon: Zap, color: "secondary" },
+  "Frontend Development": { icon: Code2, color: "primary" },
 };
 
+/* ============================
+   COMPONENT
+============================ */
 const Skills: React.FC = () => {
   return (
     <section id="skills" className="py-20 px-4 bg-card/20">
       <div className="container mx-auto max-w-6xl">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">
-          Skills & <span className="gradient-text">Expertise</span>
+          Technical <span className="gradient-text">Expertise</span>
         </h2>
         <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
-          Technologies and tools I use to bring ideas to life
+          Backend-focused engineer with DevOps mindset and frontend delivery capability
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skillsData.skills.map((category, index) => {
-            // Type-safe access to domainMeta
             const meta = domainMeta[category.domain as Domain];
             const Icon = meta.icon;
             const color = meta.color;
@@ -95,7 +119,7 @@ const Skills: React.FC = () => {
                       color === "primary"
                         ? "border-primary/40"
                         : "border-secondary/40"
-                    } group-hover:scale-110 transition-transform shadow-[0_0_15px_hsl(var(--${color})/0.3)]`}
+                    } group-hover:scale-110 transition-transform`}
                   >
                     <Icon
                       className={`w-6 h-6 ${
@@ -103,7 +127,9 @@ const Skills: React.FC = () => {
                       }`}
                     />
                   </div>
-                  <h3 className="text-xl font-semibold">{category.domain}</h3>
+                  <h3 className="text-xl font-semibold">
+                    {category.domain}
+                  </h3>
                 </div>
 
                 <div className="flex flex-wrap gap-2">

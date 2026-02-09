@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Heart, X, LogOut } from "lucide-react";
+import { Heart, X } from "lucide-react";
 
 const Footer = () => {
   const BASE_URL = import.meta.env.VITE_API_URL;
@@ -81,10 +81,10 @@ const Footer = () => {
               <span className="hover:text-primary transition-colors font-medium flex items-center gap-1">
                 {isLoggedIn ? (
                   <>
-                    Logout <LogOut className="w-4 h-4" />
+                    Neeraj Mittal 
                   </>
                 ) : (
-                  <>Login / Sign Up</>
+                  <>Neeraj Mittal</>
                 )}
               </span>
               <Heart className="w-4 h-4 text-primary fill-primary animate-pulse" />

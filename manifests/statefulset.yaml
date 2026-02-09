@@ -5,7 +5,7 @@ metadata:
   namespace: portfolio
 spec:
   serviceName: postgres-headless
-  replicas: 1
+  replicas: 4
   selector:
     matchLabels:
       app: postgres
