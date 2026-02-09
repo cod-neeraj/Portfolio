@@ -1,0 +1,73 @@
+name: CI - Build & Push Backend + Frontend
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # --------------------
+      # Backend Build
+      # --------------------
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build Backend (Maven)
+        run: |
+          cd portfolio-backend/portfolio-backend
+          mvn clean package -DskipTests
+
+      # --------------------
+      # Frontend Build
+      # --------------------
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Build Frontend
+        run: |
+          cd portfolio-neeraj
+          npm install
+          npm run build
+
+      # --------------------
+      # Docker Login
+      # --------------------
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # --------------------
+      # Build Backend Image
+      # --------------------
+      - name: Build Backend Image
+        run: |
+          docker build -t neerajdeveloper/portfolio-backend:latest ./portfolio-backend/portfolio-backend
+
+      # --------------------
+      # Build Frontend Image
+      # --------------------
+      - name: Build Frontend Image
+        run: |
+          docker build -t neerajdeveloper/portfolio-frontend:latest ./ portfolio-neeraj
+
+      # --------------------
+      # Push Images
+      # --------------------
+      - name: Push Backend Image
+        run: docker push neerajdeveloper/portfolio-backend:latest
+
+      - name: Push Frontend Image
+        run: docker push neerajdeveloper/portfolio-frontend:latest
