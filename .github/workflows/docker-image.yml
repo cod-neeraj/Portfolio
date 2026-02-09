@@ -61,7 +61,7 @@ jobs:
       # --------------------
       - name: Build Frontend Image
         run: |
-          docker build -t neerajdeveloper/portfolio-frontend:latest ./ portfolio-neeraj
+          docker build -t neerajdeveloper/portfolio-frontend:latest ./portfolio-neeraj
 
       # --------------------
       # Push Images
