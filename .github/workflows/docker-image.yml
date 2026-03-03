@@ -39,11 +39,11 @@ jobs:
           node-version: 18
 
       - name: Install Frontend Dependencies
-        working-directory: portfolio-neeraj
+        working-directory: frontend/portfolio
         run: npm install
 
       - name: Build Frontend
-        working-directory: portfolio-neeraj
+        working-directory: frontend/portfolio
         run: npm run build
 
       # ---------------------------
@@ -71,7 +71,7 @@ jobs:
       # Build & Push Frontend Image
       # ---------------------------
       - name: Build Frontend Docker Image
-        working-directory: frontend
+        working-directory: frontend/portfolio
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/portfolio-frontend:latest .
 
