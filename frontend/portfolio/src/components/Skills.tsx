@@ -92,7 +92,7 @@ const Skills: React.FC = () => {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {skillsData.skills.map((category, index) => {
+          {skillsData.skills.map((category) => {
             const meta = domainMeta[category.domain as Domain];
             const Icon = meta.icon;
             const color = meta.color;
