@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Briefcase, Calendar, Plus, Trash2 } from "lucide-react";
+import {Calendar, Plus, Trash2 } from "lucide-react";
 import axios from "axios";
 
 // ============================

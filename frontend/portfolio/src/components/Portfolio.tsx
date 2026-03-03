@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Hero from "./Hero";
 import About from "./About";
 import Skills from "./Skills";
 import Education from "./Education";

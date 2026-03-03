@@ -1,5 +1,4 @@
-import { useState, useEffect, use } from "react";
-import { Button } from "./ui/button";
+import { useState, useEffect } from "react";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 import heroBg from "../assets/main.jpeg";
 

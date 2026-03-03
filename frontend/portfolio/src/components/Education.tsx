@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GraduationCap, Award, Plus } from "lucide-react";
+import { GraduationCap, Plus } from "lucide-react";
 import { Button } from "./ui/button";
 import axios from "axios";
 
