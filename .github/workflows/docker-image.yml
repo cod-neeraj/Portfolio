@@ -1,0 +1,80 @@
+name: CI-Build-and-Push
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # ---------------------------
+      # Build Backend (Spring Boot)
+      # ---------------------------
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Build Backend
+        working-directory: portfolio-backend/portfolio-backend
+        run: mvn clean package -DskipTests
+
+      # ---------------------------
+      # Build Frontend (React)
+      # ---------------------------
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Frontend Dependencies
+        working-directory: portfolio-neeraj
+        run: npm install
+
+      - name: Build Frontend
+        working-directory: portfolio-neeraj
+        run: npm run build
+
+      # ---------------------------
+      # Docker Login
+      # ---------------------------
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # ---------------------------
+      # Build & Push Backend Image
+      # ---------------------------
+      - name: Build Backend Docker Image
+        working-directory: backend/portfolio-backend
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/portfolio-backend:latest .
+
+      - name: Push Backend Image
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/portfolio-backend:latest
+
+      # ---------------------------
+      # Build & Push Frontend Image
+      # ---------------------------
+      - name: Build Frontend Docker Image
+        working-directory: frontend
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/portfolio-frontend:latest .
+
+      - name: Push Frontend Image
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/portfolio-frontend:latest
