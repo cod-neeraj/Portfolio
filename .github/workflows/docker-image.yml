@@ -27,7 +27,7 @@ jobs:
           java-version: 21
 
       - name: Build Backend
-        working-directory: portfolio-backend/portfolio-backend
+        working-directory: portfolio/portfolio
         run: mvn clean package -DskipTests
 
       # ---------------------------
@@ -59,7 +59,7 @@ jobs:
       # Build & Push Backend Image
       # ---------------------------
       - name: Build Backend Docker Image
-        working-directory: backend/portfolio-backend
+        working-directory: portfolio/portfolio
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/portfolio-backend:latest .
 
