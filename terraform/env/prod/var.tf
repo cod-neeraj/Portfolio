@@ -1,31 +1,39 @@
 variable "vpcname" {
-    type = string
+  type = string
 }
 
-variable "cidr"{
-    type = string
+variable "region" {
+  type = string
+}
+
+variable "cidr" {
+  type = string
 }
 
 variable "az" {
-    type = list(string)
+  type = list(string)
 }
 
 variable "public_subnet_cidr" {
-    type = list(string)
+  type = list(string)
 }
 
 variable "private_subnet_cidr" {
-    type = list(string)
+  type = list(string)
 }
 
 variable "sgname" {
-    type = string
+  type = string
 }
 
 variable "clustername" {
-    type = string
+  type = string
 }
 
 variable "node_instance_type" {
-    type = string
+  type = string
+}
+
+variable "albname" {
+  type = string
 }
