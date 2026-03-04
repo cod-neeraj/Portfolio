@@ -51,8 +51,8 @@ module "eks" {
 
     cluster_name = var.clustername
     private_subnet_ids = module.vpc.private_subnet_ids
-    role_arn = module.iam.eks_cluster_arn
-    node_role_arn = module.iam.node_arn
+    eks_cluster_arn = module.iam.eks_cluster_arn
+    node_arn = module.iam.node_arn
     node_instance_type = var.node
 
 }
