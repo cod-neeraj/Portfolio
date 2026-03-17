@@ -1,41 +1,47 @@
 const About = () => {
   return (
-    <section id="about" className="py-20 px-4">
-      <div className="container mx-auto max-w-4xl">
-        <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center animate-fade-in">
+    <section id="about" className="py-20 px-4 md:px-8">
+      <div className="max-w-5xl mx-auto">
+
+        {/* Heading */}
+        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
           About <span className="gradient-text">Me</span>
         </h2>
 
-        <div className="neon-card rounded-2xl p-8 shadow-lg hover:shadow-[0_0_40px_hsl(var(--primary)/0.3)] transition-all group">
-          <div className="relative">
-            {/* Background Glow Effects */}
-            <div className="absolute -top-4 -left-4 w-24 h-24 bg-primary/20 rounded-full blur-3xl group-hover:bg-primary/30 transition-all"></div>
-            <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-secondary/20 rounded-full blur-3xl group-hover:bg-secondary/30 transition-all"></div>
+        {/* Card */}
+        <div className="neon-card rounded-2xl p-8 md:p-12 transition-all duration-300 hover:shadow-[0_0_50px_hsl(var(--primary)/0.25)]">
 
-            {/* Content */}
-            <p className="text-lg text-muted-foreground leading-relaxed mb-6 relative">
+          {/* Content */}
+          <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
+
+            <p>
               I’m a final-year Software Engineering student focused on backend
               development and cloud infrastructure. I enjoy understanding how
               systems work under the hood — from API design and database
               optimization to deployment and monitoring.
             </p>
 
-            <p className="text-lg text-muted-foreground leading-relaxed mb-6 relative">
-              My primary stack includes 
-              <span className="text-primary font-semibold"> Java and Spring Boot</span>, 
-              where I build REST APIs, implement authentication, manage relational databases, 
-              and structure applications using clean architecture principles. 
-              Beyond writing code, I containerize applications with Docker and 
-              explore CI/CD workflows to automate builds and deployments.
+            <p>
+              My primary stack includes{" "}
+              <span className="text-primary font-semibold">
+                Java and Spring Boot
+              </span>
+              , where I build REST APIs, implement authentication, manage
+              relational databases, and structure applications using clean
+              architecture principles. I also containerize applications with
+              Docker and explore CI/CD workflows to automate deployments.
             </p>
 
-            <p className="text-lg text-muted-foreground leading-relaxed relative">
-              I actively experiment with 
-              <span className="text-primary font-semibold">cloud services and DevOps tools</span>
-              to understand production environments — working with AWS, infrastructure as code, 
-              and monitoring concepts. My goal is to grow into a backend engineer 
-              who can design reliable systems, not just implement features.
+            <p>
+              I actively experiment with{" "}
+              <span className="text-primary font-semibold">
+                cloud services and DevOps tools
+              </span>{" "}
+              like AWS and infrastructure as code. My goal is to grow into a
+              backend engineer who can design reliable, production-ready systems
+              — not just implement features.
             </p>
+
           </div>
         </div>
       </div>

@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {Calendar, Plus, Trash2 } from "lucide-react";
+import { Calendar, Plus, Trash2 } from "lucide-react";
 import axios from "axios";
-
-// ============================
-// Type Definitions
-// ============================
+import { Button } from "./ui/button";
 
 interface ExperienceItem {
   id: number;
@@ -31,31 +28,23 @@ const Experience: React.FC = () => {
 
   const [descriptionInput, setDescriptionInput] = useState("");
 
-  // ============================
-  // Fetch Experiences
-  // ============================
-
   const fetchExperiences = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/user/getExperiences`, {
         withCredentials: true,
       });
 
-      console.log("Fetched experiences:", res.data);
-
       const formatted = res.data.map((exp: any) => ({
         id: exp.id,
         jobRole: exp.jobRole,
         company: exp.company,
         time: exp.time,
-        experience: Array.isArray(exp.experience)
-          ? exp.experience
-          : [],
+        experience: Array.isArray(exp.experience) ? exp.experience : [],
       }));
 
       setExperiences(formatted);
     } catch (error) {
-      console.error("Failed to fetch experiences:", error);
+      console.error("Failed:", error);
     } finally {
       setLoading(false);
     }
@@ -65,35 +54,23 @@ const Experience: React.FC = () => {
     fetchExperiences();
   }, []);
 
-  // ============================
-  // Add Experience
-  // ============================
-
   const handleAddExperience = async () => {
-    const formattedPoints = descriptionInput
+    const points = descriptionInput
       .split("\n")
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0);
+      .map((l) => l.trim())
+      .filter((l) => l);
 
-    if (
-      !newExp.jobRole ||
-      !newExp.company ||
-      !newExp.time ||
-      formattedPoints.length === 0
-    ) {
-      alert("All fields and at least one bullet point are required.");
+    if (!newExp.jobRole || !newExp.company || !newExp.time || points.length === 0) {
+      alert("Fill all fields");
       return;
     }
 
-    const payload = {
-      ...newExp,
-      experience: formattedPoints,
-    };
-
     try {
-      await axios.post(`${BASE_URL}/user/addExperience`, payload, {
-        withCredentials: true,
-      });
+      await axios.post(
+        `${BASE_URL}/user/addExperience`,
+        { ...newExp, experience: points },
+        { withCredentials: true }
+      );
 
       setAdding(false);
       setNewExp({ jobRole: "", company: "", time: "" });
@@ -101,147 +78,143 @@ const Experience: React.FC = () => {
 
       fetchExperiences();
     } catch (error) {
-      console.error("Failed to add experience:", error);
+      console.error(error);
     }
   };
-
-  // ============================
-  // Delete Experience
-  // ============================
 
   const handleDelete = async (id: number) => {
-    console.log("Deleting experience ID:", id);
-
-    if (!window.confirm("Are you sure you want to delete this experience?"))
-      return;
-    console.log("Confirmed deletion for ID:", id);
+    if (!window.confirm("Delete this experience?")) return;
 
     try {
-      await axios.delete(
-        `${BASE_URL}/user/deleteExperiences/${id}`,
-        { withCredentials: true }
-      );
+      await axios.delete(`${BASE_URL}/user/deleteExperiences/${id}`, {
+        withCredentials: true,
+      });
 
-      setExperiences((prev) => prev.filter((exp) => exp.id !== id));
+      setExperiences((prev) => prev.filter((e) => e.id !== id));
     } catch (error) {
-      console.error("Failed to delete experience:", error);
+      console.error(error);
     }
   };
 
-  if (loading)
-    return <p className="text-center py-10">Loading experiences...</p>;
-
   return (
-    <section id="experience" className="py-20 px-4">
-      <div className="container mx-auto max-w-4xl">
-        <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">
+    <section id="experience" className="py-20 px-4 md:px-8 bg-card/20">
+      <div className="max-w-5xl mx-auto">
+
+        {/* Heading */}
+        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
           Work <span className="gradient-text">Experience</span>
         </h2>
 
         {/* Add Button */}
-        {loggedIn && !adding && (
-          <div className="text-center mb-8">
-            <button
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white"
-              onClick={() => setAdding(true)}
-            >
-              <Plus className="w-4 h-4" /> Add Experience
-            </button>
+        {loggedIn && !adding && !loading && (
+          <div className="flex justify-center mb-10">
+            <Button onClick={() => setAdding(true)}>
+              <Plus className="w-4 h-4 mr-2" />
+              Add Experience
+            </Button>
           </div>
         )}
 
-        {/* Add Form */}
+        {/* Form */}
         {adding && (
-          <div className="p-6 mb-12 bg-white rounded shadow">
-            <h3 className="text-xl font-bold mb-4">Add New Experience</h3>
+          <div className="neon-card rounded-2xl p-8 mb-12">
+            <h3 className="text-xl font-semibold mb-6">Add Experience</h3>
 
-            <input
-              className="w-full mb-2 p-2 border bg-black text-white rounded"
-              placeholder="Job Role"
-              value={newExp.jobRole}
-              onChange={(e) =>
-                setNewExp({ ...newExp, jobRole: e.target.value })
-              }
-            />
+            <div className="grid md:grid-cols-2 gap-4">
+              <input
+                className="p-3 rounded-lg bg-background border border-border focus:ring-2 focus:ring-primary"
+                placeholder="Job Role"
+                value={newExp.jobRole}
+                onChange={(e) =>
+                  setNewExp({ ...newExp, jobRole: e.target.value })
+                }
+              />
 
-            <input
-              className="w-full mb-2 p-2 border bg-black text-white rounded"
-              placeholder="Company"
-              value={newExp.company}
-              onChange={(e) =>
-                setNewExp({ ...newExp, company: e.target.value })
-              }
-            />
+              <input
+                className="p-3 rounded-lg bg-background border border-border focus:ring-2 focus:ring-primary"
+                placeholder="Company"
+                value={newExp.company}
+                onChange={(e) =>
+                  setNewExp({ ...newExp, company: e.target.value })
+                }
+              />
 
-            <input
-              className="w-full mb-2 p-2 border bg-black text-white rounded"
-              placeholder="Time Period"
-              value={newExp.time}
-              onChange={(e) =>
-                setNewExp({ ...newExp, time: e.target.value })
-              }
-            />
+              <input
+                className="p-3 rounded-lg bg-background border border-border focus:ring-2 focus:ring-primary"
+                placeholder="Time"
+                value={newExp.time}
+                onChange={(e) =>
+                  setNewExp({ ...newExp, time: e.target.value })
+                }
+              />
 
-            <textarea
-              className="w-full mb-2 p-2 border bg-black text-white rounded"
-              placeholder="Write each bullet on new line"
-              value={descriptionInput}
-              onChange={(e) => setDescriptionInput(e.target.value)}
-            />
+              <textarea
+                className="p-3 rounded-lg bg-background border border-border focus:ring-2 focus:ring-primary md:col-span-2"
+                placeholder="Each bullet on new line"
+                value={descriptionInput}
+                onChange={(e) => setDescriptionInput(e.target.value)}
+              />
+            </div>
 
-            <div className="flex gap-2 mt-4">
-              <button
-                className="px-4 py-2 rounded-lg bg-primary text-white"
-                onClick={handleAddExperience}
-              >
-                Submit
-              </button>
-
-              <button
-                className="px-4 py-2 rounded-lg bg-muted text-black"
-                onClick={() => setAdding(false)}
-              >
+            <div className="flex gap-4 mt-6">
+              <Button onClick={handleAddExperience}>Save</Button>
+              <Button variant="outline" onClick={() => setAdding(false)}>
                 Cancel
-              </button>
+              </Button>
             </div>
           </div>
         )}
 
-        {/* Experience Cards */}
-        <div className="space-y-8">
-          {experiences.map((exp) => (
-            <div key={exp.id} className="neon-card rounded-xl p-6">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-xl font-bold">{exp.jobRole}</h3>
-                  <p className="gradient-text font-semibold">
-                    {exp.company}
-                  </p>
-                  <div className="flex items-center gap-2 text-muted-foreground mt-1">
-                    <Calendar className="w-4 h-4" />
-                    <span className="text-sm">{exp.time}</span>
+        {/* 🔥 Skeleton Loader (NO BLINK) */}
+        {loading && (
+          <div className="space-y-6">
+            {[1, 2].map((i) => (
+              <div key={i} className="p-6 border border-border rounded-xl animate-pulse">
+                <div className="h-5 w-1/3 bg-muted mb-2 rounded"></div>
+                <div className="h-4 w-1/2 bg-muted mb-2 rounded"></div>
+                <div className="h-3 w-full bg-muted rounded"></div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Cards */}
+        {!loading && (
+          <div className="space-y-6 animate-fade-in">
+            {experiences.map((exp) => (
+              <div
+                key={exp.id}
+                className="neon-card rounded-xl p-6 transition-all duration-300 hover:shadow-[0_0_50px_hsl(var(--primary)/0.25)]"
+              >
+                <div className="flex justify-between">
+
+                  <div>
+                    <h3 className="text-xl font-semibold">{exp.jobRole}</h3>
+                    <p className="text-primary font-medium">{exp.company}</p>
+
+                    <div className="flex items-center gap-2 text-muted-foreground mt-1">
+                      <Calendar className="w-4 h-4" />
+                      <span className="text-sm">{exp.time}</span>
+                    </div>
                   </div>
+
+                  {loggedIn && (
+                    <button onClick={() => handleDelete(exp.id)}>
+                      <Trash2 className="w-5 h-5 text-red-500 hover:text-red-700" />
+                    </button>
+                  )}
                 </div>
 
-                {loggedIn && (
-                  <button
-                    onClick={() => handleDelete(exp.id)}
-                    className="text-red-500 hover:text-red-700 relative z-50"
-                    style={{ pointerEvents: "auto" }}
-                  >
-                    <Trash2 className="w-5 h-5" />
-                  </button>
-                )}
+                <ul className="mt-4 space-y-1 text-muted-foreground list-disc list-inside">
+                  {exp.experience.map((p, i) => (
+                    <li key={i}>{p}</li>
+                  ))}
+                </ul>
               </div>
+            ))}
+          </div>
+        )}
 
-              <ul className="list-disc list-inside text-muted-foreground space-y-1 mt-4">
-                {exp.experience.map((point, i) => (
-                  <li key={i}>{point}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );

@@ -29,9 +29,6 @@ const Portfolio = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
 
-      {/* Hero Section */}
-
-
       {/* Navigation Bar */}
       <div className="sticky top-0 z-50 flex justify-center mt-8 px-4">
         <div className="backdrop-blur-xl bg-background/60 border border-border shadow-lg rounded-full px-6 py-3 flex flex-wrap gap-3 justify-center">

@@ -15,7 +15,6 @@ const Certificates: React.FC = () => {
 
   const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [loading, setLoading] = useState(true);
-
   const [adding, setAdding] = useState(false);
   const [file, setFile] = useState<File | null>(null);
 
@@ -25,7 +24,6 @@ const Certificates: React.FC = () => {
     date: "",
   });
 
-  // Fetch certificates
   const fetchCertificates = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/user/getCertificates`, {
@@ -33,7 +31,7 @@ const Certificates: React.FC = () => {
       });
       setCertificates(res.data);
     } catch (err) {
-      console.error("Failed to fetch certificates:", err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -43,7 +41,6 @@ const Certificates: React.FC = () => {
     fetchCertificates();
   }, []);
 
-  // View certificate (generate fresh signed URL)
   const handleView = async (id: number) => {
     try {
       const res = await axios.get(
@@ -51,40 +48,31 @@ const Certificates: React.FC = () => {
         { withCredentials: true }
       );
 
-      const signedUrl = res.data;
-      window.open(signedUrl, "_blank", "noopener,noreferrer");
+      window.open(res.data, "_blank");
     } catch (err) {
-      console.error("Error opening certificate:", err);
+      console.error(err);
     }
   };
 
-  // Delete certificate
   const handleDelete = async (id: number) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this certificate?"
-    );
-
-    if (!confirmDelete) return;
+    if (!window.confirm("Delete certificate?")) return;
 
     try {
-      await axios.delete(
-        `${BASE_URL}/user/deleteCertificate/${id}`,
-        { withCredentials: true }
-      );
+      await axios.delete(`${BASE_URL}/user/deleteCertificate/${id}`, {
+        withCredentials: true,
+      });
 
-      // Remove locally (no refetch needed)
       setCertificates((prev) =>
-        prev.filter((cert) => cert.id !== id)
+        prev.filter((c) => c.id !== id)
       );
     } catch (err) {
-      console.error("Failed to delete certificate:", err);
+      console.error(err);
     }
   };
 
-  // Add certificate
   const handleAddCertificate = async () => {
     if (!file) {
-      alert("Please upload a PDF file");
+      alert("Upload PDF");
       return;
     }
 
@@ -95,46 +83,31 @@ const Certificates: React.FC = () => {
       formData.append("certificateDate", newCert.date);
       formData.append("certificate", file);
 
-      await axios.post(
-        `${BASE_URL}/user/addCertificate`,
-        formData,
-        { withCredentials: true }
-      );
+      await axios.post(`${BASE_URL}/user/addCertificate`, formData, {
+        withCredentials: true,
+      });
 
-      // Refresh list
-      await fetchCertificates();
-
-      // Reset form
+      fetchCertificates();
       setAdding(false);
       setFile(null);
-      setNewCert({
-        name: "",
-        instituteName: "",
-        date: "",
-      });
+      setNewCert({ name: "", instituteName: "", date: "" });
     } catch (err) {
-      console.error("Failed to add certificate:", err);
+      console.error(err);
     }
   };
 
-  if (loading) {
-    return (
-      <p className="text-center py-10">
-        Loading certificates...
-      </p>
-    );
-  }
-
   return (
-    <section className="py-20 px-4 bg-card/20">
-      <div className="container mx-auto max-w-6xl">
-        <h2 className="text-4xl font-bold mb-8 text-center">
-          Certificates
+    <section className="py-20 px-4 md:px-8 bg-card/20">
+      <div className="max-w-6xl mx-auto">
+
+        {/* Heading */}
+        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
+          <span className="gradient-text">Certificates</span>
         </h2>
 
         {/* Add Button */}
-        {!adding && (
-          <div className="text-center mb-8">
+        {!adding && !loading && (
+          <div className="flex justify-center mb-10">
             <Button onClick={() => setAdding(true)}>
               <Plus className="w-4 h-4 mr-2" />
               Add Certificate
@@ -142,107 +115,128 @@ const Certificates: React.FC = () => {
           </div>
         )}
 
-        {/* Add Form */}
+        {/* Form */}
         {adding && (
-          <div className="p-6 mb-12 bg-white rounded shadow">
-            <input
-              className="w-full p-2 border mb-2"
-              placeholder="Certificate Name"
-              value={newCert.name}
-              onChange={(e) =>
-                setNewCert({ ...newCert, name: e.target.value })
-              }
-            />
+          <div className="neon-card rounded-2xl p-8 mb-12">
+            <h3 className="text-xl font-semibold mb-6">
+              Add Certificate
+            </h3>
 
-            <input
-              className="w-full p-2 border mb-2"
-              placeholder="Institute Name"
-              value={newCert.instituteName}
-              onChange={(e) =>
-                setNewCert({
-                  ...newCert,
-                  instituteName: e.target.value,
-                })
-              }
-            />
-
-            <input
-              type="date"
-              className="w-full p-2 border mb-2"
-              value={newCert.date}
-              onChange={(e) =>
-                setNewCert({ ...newCert, date: e.target.value })
-              }
-            />
-
-            <input
-              type="file"
-              accept="application/pdf"
-              className="w-full p-2 border mb-4"
-              onChange={(e) => {
-                if (e.target.files && e.target.files[0]) {
-                  setFile(e.target.files[0]);
+            <div className="space-y-4">
+              <input
+                className="p-3 rounded-lg bg-background border border-border w-full focus:ring-2 focus:ring-primary"
+                placeholder="Certificate Name"
+                value={newCert.name}
+                onChange={(e) =>
+                  setNewCert({ ...newCert, name: e.target.value })
                 }
-              }}
-            />
+              />
 
-            <div className="flex gap-4">
-              <Button onClick={handleAddCertificate}>
-                Submit
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => setAdding(false)}
-              >
+              <input
+                className="p-3 rounded-lg bg-background border border-border w-full"
+                placeholder="Institute"
+                value={newCert.instituteName}
+                onChange={(e) =>
+                  setNewCert({
+                    ...newCert,
+                    instituteName: e.target.value,
+                  })
+                }
+              />
+
+              <input
+                type="date"
+                className="p-3 rounded-lg bg-background border border-border w-full"
+                value={newCert.date}
+                onChange={(e) =>
+                  setNewCert({ ...newCert, date: e.target.value })
+                }
+              />
+
+              <input
+                type="file"
+                accept="application/pdf"
+                className="p-3 rounded-lg bg-background border border-border w-full"
+                onChange={(e) => {
+                  if (e.target.files?.[0]) {
+                    setFile(e.target.files[0]);
+                  }
+                }}
+              />
+            </div>
+
+            <div className="flex gap-4 mt-6">
+              <Button onClick={handleAddCertificate}>Save</Button>
+              <Button variant="outline" onClick={() => setAdding(false)}>
                 Cancel
               </Button>
             </div>
           </div>
         )}
 
-        {/* Certificates Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {certificates.map((cert) => (
-            <div
-              key={cert.id}
-              className="p-6 border rounded shadow bg-white"
-            >
-              <div className="flex items-center gap-2 mb-3">
-                <Award className="w-5 h-5 text-blue-500" />
-                <h3 className="font-bold text-lg">
-                  {cert.name}
-                </h3>
+        {/* 🔥 Skeleton (no blink) */}
+        {loading && (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="p-6 border border-border rounded-xl animate-pulse"
+              >
+                <div className="h-5 w-1/2 bg-muted mb-2 rounded"></div>
+                <div className="h-4 w-3/4 bg-muted mb-2 rounded"></div>
+                <div className="h-3 w-1/3 bg-muted rounded"></div>
               </div>
+            ))}
+          </div>
+        )}
 
-              <p className="text-sm mb-1">
-                {cert.instituteName}
-              </p>
-              <p className="text-sm mb-3">
-                Date: {cert.date}
-              </p>
+        {/* Cards */}
+        {!loading && (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
+            {certificates.map((cert) => (
+              <div
+                key={cert.id}
+                className="neon-card rounded-xl p-6 transition-all duration-300 hover:shadow-[0_0_50px_hsl(var(--primary)/0.25)] hover:-translate-y-1"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <Award className="w-5 h-5 text-primary" />
+                  <h3 className="font-semibold text-lg">{cert.name}</h3>
+                </div>
 
-              <div className="flex gap-3">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleView(cert.id)}
-                >
-                  <ExternalLink className="w-3 h-3 mr-1" />
-                  View
-                </Button>
+                <p className="text-muted-foreground text-sm">
+                  {cert.instituteName}
+                </p>
 
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => handleDelete(cert.id)}
-                >
-                  <Trash2 className="w-3 h-3 mr-1" />
-                  Delete
-                </Button>
+                <p className="text-xs text-muted-foreground mt-1 mb-4">
+                  {cert.date}
+                </p>
+
+                <div className="flex gap-3">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleView(cert.id)}
+                    className="flex-1"
+                  >
+                    <ExternalLink className="w-4 h-4 mr-1" />
+                    View
+                  </Button>
+
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={() => handleDelete(cert.id)}
+                    className="flex-1"
+                  >
+                    <Trash2 className="w-4 h-4 mr-1" />
+                    Delete
+                  </Button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
+
       </div>
     </section>
   );

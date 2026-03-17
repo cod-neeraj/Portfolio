@@ -46,7 +46,7 @@ const Hero = () => {
         <img
           src={heroBg}
           alt="Background"
-          className="w-full h-full object-cover opacity-40"
+          className="w-full h-full object-cover opacity-60"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-background/90 to-background"></div>
 
@@ -130,4 +130,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default Hero; 

@@ -1,18 +1,12 @@
 import React from "react";
 import { Server, Cloud, Database, Code2 } from "lucide-react";
 
-/* ============================
-   DOMAIN TYPES
-============================ */
 type Domain =
   | "Backend Engineering"
   | "Cloud & DevOps"
   | "Data & Messaging"
   | "Frontend (Supporting)";
 
-/* ============================
-   SKILLS DATA
-============================ */
 const skillsData = {
   skills: [
     {
@@ -22,7 +16,7 @@ const skillsData = {
         "Spring Boot",
         "Spring Data JPA",
         "REST API Design",
-        "Microservices (Fundamentals)",
+        "Microservices",
         "JWT Authentication",
         "PostgreSQL",
         "SQL",
@@ -35,10 +29,10 @@ const skillsData = {
         "Shell Scripting",
         "Docker",
         "Docker Compose",
-        "Kubernetes (Basics)",
-        "CI/CD (Jenkins, GitHub Actions)",
-        "AWS (Core Services)",
-        "Terraform (Basics)",
+        "Kubernetes",
+        "CI/CD",
+        "AWS",
+        "Terraform",
       ],
     },
     {
@@ -46,9 +40,9 @@ const skillsData = {
       skills: [
         "Database Design",
         "Redis",
-        "Apache Kafka (Concepts)",
+        "Apache Kafka",
         "API Integration",
-        "Logging & Monitoring (Concepts)",
+        "Logging & Monitoring",
       ],
     },
     {
@@ -63,9 +57,6 @@ const skillsData = {
   ],
 };
 
-/* ============================
-   DOMAIN META
-============================ */
 const domainMeta: Record<
   Domain,
   { icon: React.FC<React.SVGProps<SVGSVGElement>>; color: "primary" | "secondary" }
@@ -76,21 +67,21 @@ const domainMeta: Record<
   "Frontend (Supporting)": { icon: Code2, color: "secondary" },
 };
 
-/* ============================
-   COMPONENT
-============================ */
 const Skills: React.FC = () => {
   return (
-    <section id="skills" className="py-20 px-4 bg-card/20">
-      <div className="container mx-auto max-w-6xl">
-        <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center animate-fade-in">
+    <section id="skills" className="py-20 px-4 md:px-8 bg-card/20">
+      <div className="max-w-6xl mx-auto">
+
+        {/* Heading */}
+        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-center">
           Technical <span className="gradient-text">Stack</span>
         </h2>
 
         <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
-        
+          Technologies and tools I use to build scalable backend systems and cloud-native applications.
         </p>
 
+        {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {skillsData.skills.map((category) => {
             const meta = domainMeta[category.domain as Domain];
@@ -100,8 +91,9 @@ const Skills: React.FC = () => {
             return (
               <div
                 key={category.domain}
-                className="neon-card rounded-xl p-6 transition-all hover:shadow-lg hover:-translate-y-1"
+                className="neon-card rounded-xl p-6 transition-all duration-300 hover:shadow-[0_0_50px_hsl(var(--primary)/0.25)] hover:-translate-y-1"
               >
+                {/* Header */}
                 <div className="flex items-center gap-3 mb-5">
                   <div
                     className={`p-3 rounded-lg ${
@@ -116,16 +108,20 @@ const Skills: React.FC = () => {
                       }`}
                     />
                   </div>
+
                   <h3 className="text-xl font-semibold">
                     {category.domain}
                   </h3>
                 </div>
 
+                {/* Skills */}
                 <div className="flex flex-wrap gap-2">
                   {category.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="px-3 py-1.5 rounded-md bg-muted text-sm border border-border hover:bg-primary/10 transition-colors"
+                      className="px-3 py-1.5 rounded-md text-sm border border-border bg-muted/50 
+                                 hover:bg-primary/10 hover:border-primary/40 
+                                 transition-all duration-200"
                     >
                       {skill}
                     </span>
