@@ -14,7 +14,7 @@ public class CORSConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5173")); // your React app
+        configuration.setAllowedOrigins(List.of("*")); // your React app
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowCredentials(true); // important
         configuration.setAllowedHeaders(List.of("*"));
