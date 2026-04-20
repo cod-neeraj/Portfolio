@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { projectsData } from "../data/project";
 import { Button } from "./ui/button";
-import { Github, ExternalLink } from "lucide-react";
+import { Github } from "lucide-react";
 
 const ProjectDetails = () => {
   const { id } = useParams();
