@@ -5,7 +5,6 @@ import heroBg from "../assets/main.jpeg";
 const roles = [
   "Backend Engineer",
   "DevOps Enthusiast",
-  "Cloud-Native Builder",
 ];
 
 const Hero = () => {
@@ -83,8 +82,28 @@ const Hero = () => {
         </p>
 
 
+
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row gap-5 mt-6 mb-8 items-center">
+
+
+          <a
+            href="https://d3dfns3fhvmx5g.cloudfront.net/Neeraj Mittal.docx"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group px-8 py-3 rounded-2xl border border-primary/40 
+    backdrop-blur-md bg-white/5 font-semibold 
+    hover:bg-primary/10 hover:border-primary hover:scale-105 
+    transition-all duration-300 flex items-center gap-2"
+          >
+            View Resume
+            <Mail className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </a>
+
+        </div>
+
         {/* Social Icons */}
-        <div className="flex gap-6 justify-center">
+        <div className="flex gap-5 justify-center mt-2">
           <a
             href="https://github.com/cod-neeraj"
             target="_blank"
@@ -113,18 +132,19 @@ const Hero = () => {
 
         {/* Scroll Indicator */}
         <button
-  onClick={() =>
-    window.scrollBy({
-      top: window.innerHeight,
-      behavior: "smooth",
-    })
-  }
-  className="mt-16 animate-bounce flex items-center justify-center 
+          onClick={() =>
+            window.scrollBy({
+              
+              top: window.innerHeight,
+              behavior: "smooth",
+            })
+          }
+          className="mt-16 animate-bounce flex items-center justify-center 
              w-10 h-10 rounded-full border border-primary/40 
              text-primary hover:bg-primary/10 transition-all"
->
-  <ArrowDown className="w-5 h-5" />
-</button>
+        >
+          <ArrowDown className="w-5 h-5" />
+        </button>
       </div>
     </section>
   );

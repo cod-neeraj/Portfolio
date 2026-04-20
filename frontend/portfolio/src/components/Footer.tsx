@@ -14,21 +14,7 @@ const Footer = () => {
             <Heart className="w-4 h-4 text-primary fill-primary" />
           </p>
 
-          {/* Right */}
-          <div className="flex gap-6">
-            <a href="#about" className="text-sm text-muted-foreground hover:text-primary transition">
-              About
-            </a>
-            <a href="#projects" className="text-sm text-muted-foreground hover:text-primary transition">
-              Projects
-            </a>
-            <a href="#experience" className="text-sm text-muted-foreground hover:text-primary transition">
-              Experience
-            </a>
-            <a href="#contact" className="text-sm text-muted-foreground hover:text-primary transition">
-              Contact
-            </a>
-          </div>
+        
 
         </div>
 
