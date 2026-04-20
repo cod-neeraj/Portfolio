@@ -134,6 +134,9 @@
     opacity: 0;
     transition: opacity 0.3s;
   }
+  .neon-card::before {
+  pointer-events: none;
+}
   
   .neon-card:hover::before {
     opacity: 1;

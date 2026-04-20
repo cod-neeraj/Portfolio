@@ -1,19 +1,16 @@
-
-import './App.css'
-import Footer from './components/Footer'
-import Hero from './components/Hero'
-import Portfolio from './components/Portfolio'
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import Home from "./Home";
+import ProjectDetails from "./components/ProjectDetails"
 
 function App() {
-
   return (
-    <>
-    <Hero/>
-    <Portfolio/>
-    <Footer/>
-     
-    </>
-  )
+    <Routes>
+      {/* Home Page */}
+      <Route path="/" element={<Home />} />
+      <Route path="/project/:id" element={<ProjectDetails />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
